@@ -59,7 +59,11 @@ import {
   convertFiltersToRecord,
   convertGlobalsToRecord,
 } from './util/templating';
-import { actionsServiceRef } from '@backstage/backend-plugin-api/alpha';
+import {
+  actionsRegistryServiceRef,
+  actionsServiceRef,
+} from '@backstage/backend-plugin-api/alpha';
+import { createScaffolderActions } from './actions';
 
 /**
  * Scaffolder plugin
@@ -138,12 +142,14 @@ export const scaffolderPlugin = createBackendPlugin({
         permissions: coreServices.permissions,
         database: coreServices.database,
         auth: coreServices.auth,
+        discovery: coreServices.discovery,
         httpRouter: coreServices.httpRouter,
         httpAuth: coreServices.httpAuth,
         auditor: coreServices.auditor,
         catalog: catalogServiceRef,
         events: eventsServiceRef,
-        actionsRegistry: actionsServiceRef,
+        actionsService: actionsServiceRef,
+        actionsRegistry: actionsRegistryServiceRef,
       },
       async init({
         logger,
@@ -152,12 +158,14 @@ export const scaffolderPlugin = createBackendPlugin({
         reader,
         database,
         auth,
+        discovery,
         httpRouter,
         httpAuth,
         catalog,
         permissions,
         events,
         auditor,
+        actionsService,
         actionsRegistry,
       }) {
         const log = loggerToWinstonLogger(logger);
@@ -228,9 +236,15 @@ export const scaffolderPlugin = createBackendPlugin({
           additionalWorkspaceProviders,
           events,
           auditor,
-          actionsRegistry,
+          actionsRegistry: actionsService,
         });
         httpRouter.use(router);
+
+        createScaffolderActions({
+          actionsRegistry,
+          auth,
+          discovery,
+        });
       },
     });
   },
