@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { createListScaffolderTasksAction } from './listScaffolderTasksAction';
+import { createListScaffolderTasksAction } from './createListScaffolderTasksAction';
 import { actionsRegistryServiceMock } from '@backstage/backend-test-utils/alpha';
 import { mockServices } from '@backstage/backend-test-utils';
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { ActionsRegistryService } from '@backstage/backend-plugin-api/alpha';
-import { createListScaffolderTasksAction } from './listScaffolderTasksAction.ts';
+import { createListScaffolderTasksAction } from './createListScaffolderTasksAction.ts';
 import { DiscoveryService } from '@backstage/backend-plugin-api';
 import { AuthService } from '@backstage/backend-plugin-api';
 
